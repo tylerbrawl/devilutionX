@@ -17,6 +17,104 @@
 #endif
 #endif
 
+namespace {
+
+int screenWidth = -1;
+int screenHeight = -1;
+
+int viewportHeight = -1;
+
+void ForceScreenResInit()
+{
+	bool videoInitialized = SDL_WasInit(SDL_INIT_VIDEO);
+
+	if (!videoInitialized) {
+		SDL_Init(SDL_INIT_VIDEO);
+	}
+	disp::InitDesiredScreenRes();
+	if (!videoInitialized) {
+		SDL_Quit();
+	}
+}
+
+void ForceViewportHeightInit()
+{
+	if (screenWidth == -1) {
+		ForceScreenResInit();
+	}
+
+	disp::InitViewportHeight();
+}
+
+} // anonymous namespace
+
+namespace disp {
+
+void InitDisplayElementSizes()
+{
+	if (screenWidth == -1) {
+		InitDesiredScreenRes();
+	}
+
+	if (viewportHeight == -1) {
+		InitViewportHeight();
+	}
+}
+
+void InitDesiredScreenRes()
+{
+	SDL_DisplayMode mode;
+
+	if (SDL_GetDesktopDisplayMode(0, &mode) != 0) {
+		ErrSdl();
+	}
+
+	screenWidth = mode.w;
+	dvl::DvlIntSetting("screen width", &screenWidth);
+
+	screenHeight = mode.h;
+	dvl::DvlIntSetting("screen height", &screenHeight);
+}
+
+void InitViewportHeight()
+{
+	if (screenWidth == -1) {
+		ForceScreenResInit();
+	}
+
+	if (screenWidth <= PANEL_WIDTH) {
+		viewportHeight = (screenHeight - PANEL_HEIGHT);
+	} else {
+		viewportHeight = screenHeight;
+	}
+}
+
+const int GetScreenWidth()
+{
+	if (screenWidth == -1) {
+		ForceScreenResInit();
+	}
+	return screenWidth;
+}
+
+const int GetScreenHeight()
+{
+	if (screenHeight == -1) {
+		ForceScreenResInit();
+	}
+	return screenHeight;
+}
+
+const int GetViewportHeight()
+{
+	if (viewportHeight == -1) {
+		ForceViewportHeightInit();
+	}
+	return viewportHeight;
+}
+
+} // namespace disp
+
 namespace dvl {
 
 extern BOOL was_window_init; /** defined in dx.cpp */
@@ -47,11 +145,13 @@ bool IsFullScreen() {
 }
 #endif
 
-bool SpawnWindow(const char *lpWindowName, int nWidth, int nHeight)
+bool SpawnWindow(const char *lpWindowName)
 {
 	if (SDL_Init(SDL_INIT_EVERYTHING & ~SDL_INIT_HAPTIC) <= -1) {
 		ErrSdl();
 	}
+
+	disp::InitDisplayElementSizes();
 
 #ifdef USE_SDL1
 	SDL_EnableUNICODE(1);
@@ -96,7 +196,7 @@ bool SpawnWindow(const char *lpWindowName, int nWidth, int nHeight)
 		flags |= SDL_WINDOW_INPUT_GRABBED;
 	}
 
-	ghMainWnd = SDL_CreateWindow(lpWindowName, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, nWidth, nHeight, flags);
+	ghMainWnd = SDL_CreateWindow(lpWindowName, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, flags);
 #endif
 	if (ghMainWnd == NULL) {
 		ErrSdl();
@@ -121,12 +221,12 @@ bool SpawnWindow(const char *lpWindowName, int nWidth, int nHeight)
 			ErrSdl();
 		}
 
-		texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_STREAMING, nWidth, nHeight);
+		texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_STREAMING, SCREEN_WIDTH, SCREEN_HEIGHT);
 		if (texture == NULL) {
 			ErrSdl();
 		}
 
-		if (SDL_RenderSetLogicalSize(renderer, nWidth, nHeight) <= -1) {
+		if (SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT) <= -1) {
 			ErrSdl();
 		}
 #endif

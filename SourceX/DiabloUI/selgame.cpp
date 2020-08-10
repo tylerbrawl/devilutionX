@@ -23,8 +23,8 @@ int heroLevel;
 static _SNETPROGRAMDATA *m_client_info;
 extern int provider;
 
-constexpr UiArtTextButton SELGAME_OK = UiArtTextButton("OK", &UiFocusNavigationSelect, { PANEL_LEFT + 299, 427, 140, 35 }, UIS_CENTER | UIS_VCENTER | UIS_BIG | UIS_GOLD);
-constexpr UiArtTextButton SELGAME_CANCEL = UiArtTextButton("CANCEL", &UiFocusNavigationEsc, { PANEL_LEFT + 449, 427, 140, 35 }, UIS_CENTER | UIS_VCENTER | UIS_BIG | UIS_GOLD);
+UiArtTextButton SELGAME_OK = UiArtTextButton("OK", &UiFocusNavigationSelect, { PANEL_LEFT + 299, 427, 140, 35 }, UIS_CENTER | UIS_VCENTER | UIS_BIG | UIS_GOLD);
+UiArtTextButton SELGAME_CANCEL = UiArtTextButton("CANCEL", &UiFocusNavigationEsc, { PANEL_LEFT + 449, 427, 140, 35 }, UIS_CENTER | UIS_VCENTER | UIS_BIG | UIS_GOLD);
 
 UiArtText SELGAME_DESCRIPTION(selgame_Description, { PANEL_LEFT + 35, 256, 205, 192 });
 
@@ -48,8 +48,8 @@ UiItem SELDIFF_DIALOG[] = {
 	SELGAME_CANCEL,
 };
 
-constexpr UiArtText SELUDPGAME_TITLE = UiArtText(title, { PANEL_LEFT + 24, 161, 590, 35 }, UIS_CENTER | UIS_BIG);
-constexpr UiArtText SELUDPGAME_DESCRIPTION_LABEL = UiArtText("Description:", { PANEL_LEFT + 35, 211, 205, 192 }, UIS_MED);
+UiArtText SELUDPGAME_TITLE = UiArtText(title, { PANEL_LEFT + 24, 161, 590, 35 }, UIS_CENTER | UIS_BIG);
+UiArtText SELUDPGAME_DESCRIPTION_LABEL = UiArtText("Description:", { PANEL_LEFT + 35, 211, 205, 192 }, UIS_MED);
 
 UiListItem SELUDPGAME_DIALOG_ITEMS[] = {
 	{ "Create Game", 0 },
