@@ -18,7 +18,7 @@ _SNETVERSIONDATA *selconn_FileInfo;
 
 int provider;
 
-UiArtText SELCONNECT_DIALOG_DESCRIPTION(selconn_Description, { PANEL_LEFT + 35, 275, 205, 66 });
+UiArtText SELCONNECT_DIALOG_DESCRIPTION(selconn_Description, { PANEL_LEFT + 35, (MAINMENU_BACKGROUND_Y + 275), 205, 66 });
 
 // Should be in the same order than conn_type (See enums.h)
 UiListItem SELCONN_DIALOG_ITEMS[] = {
@@ -34,17 +34,17 @@ UiListItem SELCONN_DIALOG_ITEMS[] = {
 UiItem SELCONNECT_DIALOG[] = {
 	MAINMENU_BACKGROUND,
 	MAINMENU_LOGO,
-	UiArtText("Multi Player Game", { PANEL_LEFT + 24, 161, 590, 35 }, UIS_CENTER | UIS_BIG),
-	UiArtText(selconn_MaxPlayers, { PANEL_LEFT + 35, 218, 205, 21 }),
-	UiArtText("Requirements:", { PANEL_LEFT + 35, 256, 205, 21 }),
+	UiArtText("Multi Player Game", { PANEL_LEFT + 24, (MAINMENU_BACKGROUND_Y + 161), 590, 35 }, UIS_CENTER | UIS_BIG),
+	UiArtText(selconn_MaxPlayers, { PANEL_LEFT + 35, (MAINMENU_BACKGROUND_Y + 218), 205, 21 }),
+	UiArtText("Requirements:", { PANEL_LEFT + 35, (MAINMENU_BACKGROUND_Y + 256), 205, 21 }),
 	SELCONNECT_DIALOG_DESCRIPTION,
-	UiArtText("no gateway needed", { PANEL_LEFT + 30, 356, 220, 31 }, UIS_CENTER | UIS_MED),
-	UiArtText(selconn_Gateway, { PANEL_LEFT + 35, 393, 205, 21 }, UIS_CENTER),
-	UiArtText("Select Connection", { PANEL_LEFT + 300, 211, 295, 33 }, UIS_CENTER | UIS_BIG),
-	UiArtTextButton("Change Gateway", NULL, { PANEL_LEFT + 16, 427, 250, 35 }, UIS_CENTER | UIS_VCENTER | UIS_BIG | UIS_GOLD | UIS_HIDDEN),
-	UiList(SELCONN_DIALOG_ITEMS, PANEL_LEFT + 305, 256, 285, 26, UIS_CENTER | UIS_VCENTER | UIS_GOLD),
-	UiArtTextButton("OK", &UiFocusNavigationSelect, { PANEL_LEFT + 299, 427, 140, 35 }, UIS_CENTER | UIS_VCENTER | UIS_BIG | UIS_GOLD),
-	UiArtTextButton("Cancel", &UiFocusNavigationEsc, { PANEL_LEFT + 454, 427, 140, 35 }, UIS_CENTER | UIS_VCENTER | UIS_BIG | UIS_GOLD)
+	UiArtText("no gateway needed", { PANEL_LEFT + 30, (MAINMENU_BACKGROUND_Y + 356), 220, 31 }, UIS_CENTER | UIS_MED),
+	UiArtText(selconn_Gateway, { PANEL_LEFT + 35, (MAINMENU_BACKGROUND_Y + 393), 205, 21 }, UIS_CENTER),
+	UiArtText("Select Connection", { PANEL_LEFT + 300, (MAINMENU_BACKGROUND_Y + 211), 295, 33 }, UIS_CENTER | UIS_BIG),
+	UiArtTextButton("Change Gateway", NULL, { PANEL_LEFT + 16, (MAINMENU_BACKGROUND_Y + 427), 250, 35 }, UIS_CENTER | UIS_VCENTER | UIS_BIG | UIS_GOLD | UIS_HIDDEN),
+	UiList(SELCONN_DIALOG_ITEMS, PANEL_LEFT + 305, (MAINMENU_BACKGROUND_Y + 256), 285, 26, UIS_CENTER | UIS_VCENTER | UIS_GOLD),
+	UiArtTextButton("OK", &UiFocusNavigationSelect, { PANEL_LEFT + 299, (MAINMENU_BACKGROUND_Y + 427), 140, 35 }, UIS_CENTER | UIS_VCENTER | UIS_BIG | UIS_GOLD),
+	UiArtTextButton("Cancel", &UiFocusNavigationEsc, { PANEL_LEFT + 454, (MAINMENU_BACKGROUND_Y + 427), 140, 35 }, UIS_CENTER | UIS_VCENTER | UIS_BIG | UIS_GOLD)
 };
 
 void selconn_Load()
