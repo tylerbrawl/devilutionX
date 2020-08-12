@@ -32,19 +32,19 @@ void DialogActionOK()
 	dialogEnd = true;
 }
 
-const auto DIALOG_ART_L = UiImage(&dialogArt, { PANEL_LEFT + 127, 100, 385, 280 });
+const auto DIALOG_ART_L = UiImage(&dialogArt, { PANEL_LEFT + 127, (UI_OFFSET_Y + 100), 385, 280 });
 
 UiItem OK_DIALOG[] = {
-	UiImage(&dialogArt, { PANEL_LEFT + 180, 168, 280, 144 }),
-	UiText(dialogText, { PANEL_LEFT + 200, 211, 240, 80 }, UIS_CENTER),
-	MakeSmlButton("OK", &DialogActionOK, PANEL_LEFT + 265, 265),
+	UiImage(&dialogArt, { PANEL_LEFT + 180, (UI_OFFSET_Y + 168), 280, 144 }),
+	UiText(dialogText, { PANEL_LEFT + 200, (UI_OFFSET_Y + 211), 240, 80 }, UIS_CENTER),
+	MakeSmlButton("OK", &DialogActionOK, PANEL_LEFT + 265, (UI_OFFSET_Y + 265)),
 };
 
 UiItem OK_DIALOG_WITH_CAPTION[] = {
 	DIALOG_ART_L,
-	UiText(dialogText, SDL_Color{ 255, 255, 0, 0 }, { PANEL_LEFT + 147, 110, 345, 20 }, UIS_CENTER),
-	UiText(dialogCaption, { PANEL_LEFT + 147, 141, 345, 190 }, UIS_CENTER),
-	MakeSmlButton("OK", &DialogActionOK, PANEL_LEFT + 264, 335),
+	UiText(dialogText, SDL_Color{ 255, 255, 0, 0 }, { PANEL_LEFT + 147, (UI_OFFSET_Y + 110), 345, 20 }, UIS_CENTER),
+	UiText(dialogCaption, { PANEL_LEFT + 147, (UI_OFFSET_Y + 141), 345, 190 }, UIS_CENTER),
+	MakeSmlButton("OK", &DialogActionOK, PANEL_LEFT + 264, (UI_OFFSET_Y + 335)),
 };
 
 // clang-format off

@@ -18,10 +18,12 @@ void title_Free()
 
 void UiTitleDialog()
 {
+	// Position the logo and copyright text relative to the background image.
+	int logoLocY = ((SCREEN_HEIGHT / 2) - 240) + 182;
 	UiItem TITLESCREEN_DIALOG[] = {
 		MAINMENU_BACKGROUND,
-		UiImage(&ArtLogos[LOGO_BIG], /*animated=*/true, /*frame=*/0, { 0, 182, 0, 0 }, UIS_CENTER),
-		UiArtText("Copyright \xA9 1996-2001 Blizzard Entertainment", { PANEL_LEFT + 49, 410, 550, 26 }, UIS_MED | UIS_CENTER)
+		UiImage(&ArtLogos[LOGO_BIG], /*animated=*/true, /*frame=*/0, { 0, logoLocY, 0, 0 }, UIS_CENTER),
+		UiArtText("Copyright \xA9 1996-2001 Blizzard Entertainment", { PANEL_LEFT + 49, logoLocY + 228, 550, 26 }, UIS_MED | UIS_CENTER)
 	};
 
 	title_Load();
