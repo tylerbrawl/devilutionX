@@ -41,29 +41,29 @@ namespace {
 UiItem SELHERO_DIALOG[] = {
 	MAINMENU_BACKGROUND,
 	MAINMENU_LOGO,
-	UiArtText(title, { PANEL_LEFT + 24, 161, 590, 35 }, UIS_CENTER | UIS_BIG),
-	UiImage(&ArtHero, UI_NUM_CLASSES, { PANEL_LEFT + 30, 211, 180, 76 }),
-	UiArtText("Level:", { PANEL_LEFT + 39, 323, 110, 21 }, UIS_RIGHT),
-	UiArtText(textStats[0], { PANEL_LEFT + 159, 323, 40, 21 }, UIS_CENTER),
-	UiArtText("Strength:", { PANEL_LEFT + 39, 358, 110, 21 }, UIS_RIGHT),
-	UiArtText(textStats[1], { PANEL_LEFT + 159, 358, 40, 21 }, UIS_CENTER),
-	UiArtText("Magic:", { PANEL_LEFT + 39, 380, 110, 21 }, UIS_RIGHT),
-	UiArtText(textStats[2], { PANEL_LEFT + 159, 380, 40, 21 }, UIS_CENTER),
-	UiArtText("Dexterity:", { PANEL_LEFT + 39, 401, 110, 21 }, UIS_RIGHT),
-	UiArtText(textStats[3], { PANEL_LEFT + 159, 401, 40, 21 }, UIS_CENTER),
-	UiArtText("Vitality:", { PANEL_LEFT + 39, 422, 110, 21 }, UIS_RIGHT),
-	UiArtText(textStats[4], { PANEL_LEFT + 159, 422, 40, 21 }, UIS_CENTER),
+	UiArtText(title, { PANEL_LEFT + 24, (UI_OFFSET_Y + 161), 590, 35 }, UIS_CENTER | UIS_BIG),
+	UiImage(&ArtHero, UI_NUM_CLASSES, { PANEL_LEFT + 30, (UI_OFFSET_Y + 211), 180, 76 }),
+	UiArtText("Level:", { PANEL_LEFT + 39, (UI_OFFSET_Y + 323), 110, 21 }, UIS_RIGHT),
+	UiArtText(textStats[0], { PANEL_LEFT + 159, (UI_OFFSET_Y + 323), 40, 21 }, UIS_CENTER),
+	UiArtText("Strength:", { PANEL_LEFT + 39, (UI_OFFSET_Y + 358), 110, 21 }, UIS_RIGHT),
+	UiArtText(textStats[1], { PANEL_LEFT + 159, (UI_OFFSET_Y + 358), 40, 21 }, UIS_CENTER),
+	UiArtText("Magic:", { PANEL_LEFT + 39, (UI_OFFSET_Y + 380), 110, 21 }, UIS_RIGHT),
+	UiArtText(textStats[2], { PANEL_LEFT + 159, (UI_OFFSET_Y + 380), 40, 21 }, UIS_CENTER),
+	UiArtText("Dexterity:", { PANEL_LEFT + 39, (UI_OFFSET_Y + 401), 110, 21 }, UIS_RIGHT),
+	UiArtText(textStats[3], { PANEL_LEFT + 159, (UI_OFFSET_Y + 401), 40, 21 }, UIS_CENTER),
+	UiArtText("Vitality:", { PANEL_LEFT + 39, (UI_OFFSET_Y + 422), 110, 21 }, UIS_RIGHT),
+	UiArtText(textStats[4], { PANEL_LEFT + 159, (UI_OFFSET_Y + 422), 40, 21 }, UIS_CENTER),
 };
 UiImage *SELHERO_DIALOG_HERO_IMG = &SELHERO_DIALOG[3].image;
 
 UiListItem SELLIST_DIALOG_ITEMS[kMaxViewportItems];
 UiItem SELLIST_DIALOG[] = {
-	UiArtText("Select Hero", { PANEL_LEFT + 264, 211, 320, 33 }, UIS_CENTER | UIS_BIG),
-	UiList(SELLIST_DIALOG_ITEMS, PANEL_LEFT + 265, 256, 320, 26, UIS_CENTER | UIS_MED | UIS_GOLD),
-	MakeScrollBar({ PANEL_LEFT + 585, 244, 25, 178 }),
-	UiArtTextButton("OK", &UiFocusNavigationSelect, { PANEL_LEFT + 239, 429, 120, 35 }, UIS_CENTER | UIS_BIG | UIS_GOLD),
-	UiArtTextButton("Delete", &selhero_UiFocusNavigationYesNo, { PANEL_LEFT + 364, 429, 120, 35 }, UIS_CENTER | UIS_BIG | UIS_DISABLED),
-	UiArtTextButton("Cancel", &UiFocusNavigationEsc, { PANEL_LEFT + 489, 429, 120, 35 }, UIS_CENTER | UIS_BIG | UIS_GOLD)
+	UiArtText("Select Hero", { PANEL_LEFT + 264, (UI_OFFSET_Y + 211), 320, 33 }, UIS_CENTER | UIS_BIG),
+	UiList(SELLIST_DIALOG_ITEMS, PANEL_LEFT + 265, (UI_OFFSET_Y + 256), 320, 26, UIS_CENTER | UIS_MED | UIS_GOLD),
+	MakeScrollBar({ PANEL_LEFT + 585, (UI_OFFSET_Y + 244), 25, 178 }),
+	UiArtTextButton("OK", &UiFocusNavigationSelect, { PANEL_LEFT + 239, (UI_OFFSET_Y + 429), 120, 35 }, UIS_CENTER | UIS_BIG | UIS_GOLD),
+	UiArtTextButton("Delete", &selhero_UiFocusNavigationYesNo, { PANEL_LEFT + 364, (UI_OFFSET_Y + 429), 120, 35 }, UIS_CENTER | UIS_BIG | UIS_DISABLED),
+	UiArtTextButton("Cancel", &UiFocusNavigationEsc, { PANEL_LEFT + 489, (UI_OFFSET_Y + 429), 120, 35 }, UIS_CENTER | UIS_BIG | UIS_GOLD)
 };
 UiList *SELLIST_DIALOG_LIST = &SELLIST_DIALOG[1].list;
 UiScrollBar *SELLIST_SCROLLBAR = &SELLIST_DIALOG[2].scrollbar;
@@ -75,17 +75,17 @@ UiListItem SELCLAS_DIALOG_ITEMS[] = {
 	{ "Sorcerer", UI_SORCERER }
 };
 UiItem SELCLASS_DIALOG[] = {
-	UiArtText("Choose Class", { PANEL_LEFT + 264, 211, 320, 33 }, UIS_CENTER | UIS_BIG),
-	UiList(SELCLAS_DIALOG_ITEMS, PANEL_LEFT + 264, 285, 320, 33, UIS_CENTER | UIS_MED | UIS_GOLD),
-	UiArtTextButton("OK", &UiFocusNavigationSelect, { PANEL_LEFT + 279, 429, 140, 35 }, UIS_CENTER | UIS_BIG | UIS_GOLD),
-	UiArtTextButton("Cancel", &UiFocusNavigationEsc, { PANEL_LEFT + 429, 429, 140, 35 }, UIS_CENTER | UIS_BIG | UIS_GOLD)
+	UiArtText("Choose Class", { PANEL_LEFT + 264, (UI_OFFSET_Y + 211), 320, 33 }, UIS_CENTER | UIS_BIG),
+	UiList(SELCLAS_DIALOG_ITEMS, PANEL_LEFT + 264, (UI_OFFSET_Y + 285), 320, 33, UIS_CENTER | UIS_MED | UIS_GOLD),
+	UiArtTextButton("OK", &UiFocusNavigationSelect, { PANEL_LEFT + 279, (UI_OFFSET_Y + 429), 140, 35 }, UIS_CENTER | UIS_BIG | UIS_GOLD),
+	UiArtTextButton("Cancel", &UiFocusNavigationEsc, { PANEL_LEFT + 429, (UI_OFFSET_Y + 429), 140, 35 }, UIS_CENTER | UIS_BIG | UIS_GOLD)
 };
 
 UiItem ENTERNAME_DIALOG[] = {
-	UiArtText("Enter Name", { PANEL_LEFT + 264, 211, 320, 33 }, UIS_CENTER | UIS_BIG),
-	UiEdit(selhero_heroInfo.name, 15, { PANEL_LEFT + 265, 317, 320, 33 }, UIS_MED | UIS_GOLD),
-	UiArtTextButton("OK", &UiFocusNavigationSelect, { PANEL_LEFT + 279, 429, 140, 35 }, UIS_CENTER | UIS_BIG | UIS_GOLD),
-	UiArtTextButton("Cancel", &UiFocusNavigationEsc, { PANEL_LEFT + 429, 429, 140, 35 }, UIS_CENTER | UIS_BIG | UIS_GOLD)
+	UiArtText("Enter Name", { PANEL_LEFT + 264, (UI_OFFSET_Y + 211), 320, 33 }, UIS_CENTER | UIS_BIG),
+	UiEdit(selhero_heroInfo.name, 15, { PANEL_LEFT + 265, (UI_OFFSET_Y + 317), 320, 33 }, UIS_MED | UIS_GOLD),
+	UiArtTextButton("OK", &UiFocusNavigationSelect, { PANEL_LEFT + 279, (UI_OFFSET_Y + 429), 140, 35 }, UIS_CENTER | UIS_BIG | UIS_GOLD),
+	UiArtTextButton("Cancel", &UiFocusNavigationEsc, { PANEL_LEFT + 429, (UI_OFFSET_Y + 429), 140, 35 }, UIS_CENTER | UIS_BIG | UIS_GOLD)
 };
 
 UiListItem SELLOAD_DIALOG_ITEMS[] = {
@@ -93,10 +93,10 @@ UiListItem SELLOAD_DIALOG_ITEMS[] = {
 	{ "New Game", 1 }
 };
 UiItem SELLOAD_DIALOG[] = {
-	UiArtText("Save File Exists", { PANEL_LEFT + 264, 211, 320, 33 }, UIS_CENTER | UIS_BIG),
-	UiList(SELLOAD_DIALOG_ITEMS, PANEL_LEFT + 265, 285, 320, 33, UIS_CENTER | UIS_MED | UIS_GOLD),
-	UiArtTextButton("OK", &UiFocusNavigationSelect, { PANEL_LEFT + 279, 427, 140, 35 }, UIS_CENTER | UIS_VCENTER | UIS_BIG | UIS_GOLD),
-	UiArtTextButton("Cancel", &UiFocusNavigationEsc, { PANEL_LEFT + 429, 427, 140, 35 }, UIS_CENTER | UIS_VCENTER | UIS_BIG | UIS_GOLD)
+	UiArtText("Save File Exists", { PANEL_LEFT + 264, (UI_OFFSET_Y + 211), 320, 33 }, UIS_CENTER | UIS_BIG),
+	UiList(SELLOAD_DIALOG_ITEMS, PANEL_LEFT + 265, (UI_OFFSET_Y + 285), 320, 33, UIS_CENTER | UIS_MED | UIS_GOLD),
+	UiArtTextButton("OK", &UiFocusNavigationSelect, { PANEL_LEFT + 279, (UI_OFFSET_Y + 427), 140, 35 }, UIS_CENTER | UIS_VCENTER | UIS_BIG | UIS_GOLD),
+	UiArtTextButton("Cancel", &UiFocusNavigationEsc, { PANEL_LEFT + 429, (UI_OFFSET_Y + 427), 140, 35 }, UIS_CENTER | UIS_VCENTER | UIS_BIG | UIS_GOLD)
 };
 
 } // namespace
