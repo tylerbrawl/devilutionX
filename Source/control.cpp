@@ -1788,18 +1788,18 @@ void DrawSpellBook()
 
 	spl = plr[myplr]._pMemSpells | plr[myplr]._pISpells | plr[myplr]._pAblSpells;
 
-	yp = 215;
+	yp = (55 + SCREEN_Y);
 	for (i = 1; i < 8; i++) {
 		sn = SpellPages[sbooktab][i - 1];
 		if (sn != -1 && spl & (__int64)1 << (sn - 1)) {
 			st = GetSBookTrans(sn, TRUE);
 			SetSpellTrans(st);
-			DrawSpellCel(RIGHT_PANEL + 75, yp, pSBkIconCels, SpellITbl[sn], 37);
+			DrawSpellCel(RIGHT_PANEL + (11 + SCREEN_X), yp, pSBkIconCels, SpellITbl[sn], 37);
 			if (sn == plr[myplr]._pRSpell && st == plr[myplr]._pRSplType) {
 				SetSpellTrans(RSPLTYPE_SKILL);
-				DrawSpellCel(RIGHT_PANEL + 75, yp, pSBkIconCels, SPLICONLAST, 37);
+				DrawSpellCel(RIGHT_PANEL + (11 + SCREEN_X), yp, pSBkIconCels, SPLICONLAST, 37);
 			}
-			PrintSBookStr(10, yp - 23, FALSE, spelldata[sn].sNameText, COL_WHITE);
+			PrintSBookStr(-54 + SCREEN_X, yp - 23, FALSE, spelldata[sn].sNameText, COL_WHITE);
 			switch (GetSBookTrans(sn, FALSE)) {
 			case RSPLTYPE_SKILL:
 				strcpy(tempstr, "Skill");
@@ -1818,7 +1818,7 @@ void DrawSpellBook()
 				if (sn == SPL_BONESPIRIT) {
 					sprintf(tempstr, "Mana: %i  Dam: 1/3 tgt hp", mana);
 				}
-				PrintSBookStr(10, yp - 1, FALSE, tempstr, COL_WHITE);
+				PrintSBookStr(-54 + SCREEN_X, yp - 1, FALSE, tempstr, COL_WHITE);
 				lvl = plr[myplr]._pSplLvl[sn] + plr[myplr]._pISplLvlAdd;
 				if (lvl < 0) {
 					lvl = 0;
@@ -1830,7 +1830,7 @@ void DrawSpellBook()
 				}
 				break;
 			}
-			PrintSBookStr(10, yp - 12, FALSE, tempstr, COL_WHITE);
+			PrintSBookStr(-54 + SCREEN_X, yp - 12, FALSE, tempstr, COL_WHITE);
 		}
 		yp += 43;
 	}
@@ -2026,7 +2026,7 @@ void DrawTalkPan()
 	DrawPanelBox(170, sgbPlrTalkTbl + 80, 310, 55, PANEL_X + 170, PANEL_Y + 64);
 	msg = sgszTalkMsg;
 	for (i = 0; i < 39; i += 13) {
-		x = 0 + PANEL_LEFT;
+		x = (-64 + SCREEN_X) + PANEL_LEFT;
 		msg = control_print_talk_msg(msg, &x, i, 0);
 		if (!msg)
 			break;
@@ -2059,7 +2059,7 @@ void DrawTalkPan()
 			CelDraw(172 + PANEL_X, 84 + 18 * talk_btn + PANEL_Y, pTalkBtns, nCel, 61);
 		}
 		if (plr[i].plractive) {
-			x = 46 + PANEL_LEFT;
+			x = (-18 + SCREEN_X) + PANEL_LEFT;
 			control_print_talk_msg(plr[i]._pName, &x, 60 + talk_btn * 18, color);
 		}
 
@@ -2078,7 +2078,7 @@ char *control_print_talk_msg(char *msg, int *x, int y, int color)
 
 		c = fontframe[gbFontTransTbl[(BYTE)*msg]];
 		width += fontkern[c] + 1;
-		if (width > 514 + PANEL_LEFT)
+		if (width > (450 + SCREEN_X) + PANEL_LEFT)
 			return msg;
 		msg++;
 		if (c != 0) {
@@ -2121,7 +2121,8 @@ void control_release_talk_btn()
 	if (talkflag) {
 		for (i = 0; i < sizeof(talkbtndown) / sizeof(talkbtndown[0]); i++)
 			talkbtndown[i] = FALSE;
-		if (MouseX >= 172 + PANEL_LEFT && MouseY >= 421 + PANEL_LEFT && MouseX <= -119 + PANEL_TOP && MouseY <= 123 + PANEL_TOP) {
+		//if (MouseX >= 172 + PANEL_LEFT && MouseY >= 421 + PANEL_LEFT && MouseX <= -119 + PANEL_TOP && MouseY <= 123 + PANEL_TOP) {
+		if (MouseX >= 172 + PANEL_LEFT && MouseY >= 69 + PANEL_TOP && MouseX <= 233 + PANEL_LEFT && MouseY <= 123 + PANEL_TOP) {
 			off = (MouseY - (69 + PANEL_TOP)) / 18;
 
 			for (p = 0; p < MAX_PLRS && off != -1; p++) {
