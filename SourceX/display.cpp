@@ -71,9 +71,15 @@ void InitDesiredScreenRes()
 
 	screenWidth = mode.w;
 	dvl::DvlIntSetting("screen width", &screenWidth);
+	if (screenWidth < 640) {
+		screenWidth = 640;
+	}
 
 	screenHeight = mode.h;
 	dvl::DvlIntSetting("screen height", &screenHeight);
+	if (screenHeight < 480) {
+		screenHeight = 480;
+	}
 }
 
 void InitViewportHeight()
