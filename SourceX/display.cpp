@@ -63,6 +63,11 @@ void InitDisplayElementSizes()
 
 void InitDesiredScreenRes()
 {
+#ifdef USE_SDL1
+	// Use the default 640x480 resolution when attempting to compile with SDL 1.2.
+	screenWidth = 640;
+	screenHeight = 480;
+#else
 	SDL_DisplayMode mode;
 
 	if (SDL_GetDesktopDisplayMode(0, &mode) != 0) {
@@ -80,6 +85,7 @@ void InitDesiredScreenRes()
 	if (screenHeight < 480) {
 		screenHeight = 480;
 	}
+#endif
 }
 
 void InitViewportHeight()
