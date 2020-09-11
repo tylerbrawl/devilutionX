@@ -17,104 +17,6 @@
 #endif
 #endif
 
-namespace {
-
-int screenWidth = -1;
-int screenHeight = -1;
-
-int viewportHeight = -1;
-
-void ForceScreenResInit()
-{
-	bool videoInitialized = SDL_WasInit(SDL_INIT_VIDEO);
-
-	if (!videoInitialized) {
-		SDL_Init(SDL_INIT_VIDEO);
-	}
-	disp::InitDesiredScreenRes();
-	if (!videoInitialized) {
-		SDL_Quit();
-	}
-}
-
-void ForceViewportHeightInit()
-{
-	if (screenWidth == -1) {
-		ForceScreenResInit();
-	}
-
-	disp::InitViewportHeight();
-}
-
-} // anonymous namespace
-
-namespace disp {
-
-void InitDisplayElementSizes()
-{
-	if (screenWidth == -1) {
-		InitDesiredScreenRes();
-	}
-
-	if (viewportHeight == -1) {
-		InitViewportHeight();
-	}
-}
-
-void InitDesiredScreenRes()
-{
-	SDL_DisplayMode mode;
-
-	if (SDL_GetDesktopDisplayMode(0, &mode) != 0) {
-		ErrSdl();
-	}
-
-	screenWidth = mode.w;
-	dvl::DvlIntSetting("screen width", &screenWidth);
-
-	screenHeight = mode.h;
-	dvl::DvlIntSetting("screen height", &screenHeight);
-}
-
-void InitViewportHeight()
-{
-	if (screenWidth == -1) {
-		ForceScreenResInit();
-	}
-
-	if (screenWidth <= PANEL_WIDTH) {
-		viewportHeight = (screenHeight - PANEL_HEIGHT);
-	} else {
-		viewportHeight = screenHeight;
-	}
-}
-
-const int GetScreenWidth()
-{
-	if (screenWidth == -1) {
-		ForceScreenResInit();
-	}
-	return screenWidth;
-}
-
-const int GetScreenHeight()
-{
-	if (screenHeight == -1) {
-		ForceScreenResInit();
-	}
-	return screenHeight;
-}
-
-const int GetViewportHeight()
-{
-	if (viewportHeight == -1) {
-		ForceViewportHeightInit();
-	}
-	return viewportHeight;
-}
-
-} // namespace disp
-
 namespace dvl {
 
 extern BOOL was_window_init; /** defined in dx.cpp */
@@ -145,13 +47,11 @@ bool IsFullScreen() {
 }
 #endif
 
-bool SpawnWindow(const char *lpWindowName)
+bool SpawnWindow(const char *lpWindowName, int nWidth, int nHeight)
 {
 	if (SDL_Init(SDL_INIT_EVERYTHING & ~SDL_INIT_HAPTIC) <= -1) {
 		ErrSdl();
 	}
-
-	disp::InitDisplayElementSizes();
 
 #ifdef USE_SDL1
 	SDL_EnableUNICODE(1);
@@ -196,7 +96,7 @@ bool SpawnWindow(const char *lpWindowName)
 		flags |= SDL_WINDOW_INPUT_GRABBED;
 	}
 
-	ghMainWnd = SDL_CreateWindow(lpWindowName, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, flags);
+	ghMainWnd = SDL_CreateWindow(lpWindowName, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, nWidth, nHeight, flags);
 #endif
 	if (ghMainWnd == NULL) {
 		ErrSdl();
@@ -216,17 +116,31 @@ bool SpawnWindow(const char *lpWindowName)
 #ifdef USE_SDL1
 		SDL_Log("upscaling not supported with USE_SDL1");
 #else
-		renderer = SDL_CreateRenderer(ghMainWnd, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED);
+		Uint32 rendererFlags = SDL_RENDERER_ACCELERATED;
+
+		vsyncEnabled = 1;
+		DvlIntSetting("vsync", &vsyncEnabled);
+		if (vsyncEnabled) {
+			rendererFlags |= SDL_RENDERER_PRESENTVSYNC;
+		}
+
+		renderer = SDL_CreateRenderer(ghMainWnd, -1, rendererFlags);
 		if (renderer == NULL) {
 			ErrSdl();
 		}
 
-		texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_STREAMING, SCREEN_WIDTH, SCREEN_HEIGHT);
+		texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_STREAMING, nWidth, nHeight);
 		if (texture == NULL) {
 			ErrSdl();
 		}
 
-		if (SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT) <= -1) {
+		int integerScalingEnabled = 0;
+		DvlIntSetting("integer scaling", &integerScalingEnabled);
+		if (integerScalingEnabled && SDL_RenderSetIntegerScale(renderer, SDL_TRUE) < 0) {
+			ErrSdl();
+		}
+
+		if (SDL_RenderSetLogicalSize(renderer, nWidth, nHeight) <= -1) {
 			ErrSdl();
 		}
 #endif
