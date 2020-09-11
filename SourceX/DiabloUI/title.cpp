@@ -4,6 +4,8 @@
 
 namespace dvl {
 
+std::vector<UiItemBase *> vecTitleScreen;
+
 void title_Load()
 {
 	LoadBackgroundArt("ui_art\\title.pcx");
@@ -14,17 +16,21 @@ void title_Free()
 {
 	ArtBackground.Unload();
 	ArtLogos[LOGO_BIG].Unload();
+
+	for (std::size_t i = 0; i < vecTitleScreen.size(); i++) {
+		UiItemBase *pUIItem = vecTitleScreen[i];
+		delete pUIItem;
+	}
+	vecTitleScreen.clear();
 }
 
 void UiTitleDialog()
 {
-	// Position the logo and copyright text relative to the background image.
-	int logoLocY = ((SCREEN_HEIGHT / 2) - 240) + 182;
-	UiItem TITLESCREEN_DIALOG[] = {
-		MAINMENU_BACKGROUND,
-		UiImage(&ArtLogos[LOGO_BIG], /*animated=*/true, /*frame=*/0, { 0, logoLocY, 0, 0 }, UIS_CENTER),
-		UiArtText("Copyright \xA9 1996-2001 Blizzard Entertainment", { PANEL_LEFT + 49, logoLocY + 228, 550, 26 }, UIS_MED | UIS_CENTER)
-	};
+	UiAddBackground(&vecTitleScreen);
+	UiAddLogo(&vecTitleScreen, LOGO_BIG, (UI_OFFSET_Y + 182));
+
+	SDL_Rect rect = { PANEL_LEFT + 49, (UI_OFFSET_Y + 410), 550, 26 };
+	vecTitleScreen.push_back(new UiArtText("Copyright \xA9 1996-2001 Blizzard Entertainment", rect, UIS_MED | UIS_CENTER));
 
 	title_Load();
 
@@ -33,7 +39,7 @@ void UiTitleDialog()
 
 	SDL_Event event;
 	while (!endMenu && SDL_GetTicks() < timeOut) {
-		UiRenderItems(TITLESCREEN_DIALOG, size(TITLESCREEN_DIALOG));
+		UiRenderItems(vecTitleScreen);
 		UiFadeIn();
 
 		while (SDL_PollEvent(&event)) {
@@ -42,13 +48,7 @@ void UiTitleDialog()
 				break;
 			}
 			switch (event.type) {
-			case SDL_KEYDOWN: /* To match the original uncomment this
-				if (event.key.keysym.sym == SDLK_UP
-				    || event.key.keysym.sym == SDLK_UP
-				    || event.key.keysym.sym == SDLK_LEFT
-				    || event.key.keysym.sym == SDLK_RIGHT) {
-					break;
-				}*/
+			case SDL_KEYDOWN:
 			case SDL_MOUSEBUTTONDOWN:
 				endMenu = true;
 				break;
